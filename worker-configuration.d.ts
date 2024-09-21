@@ -3,4 +3,5 @@
 interface Env {
   RESEND_API_KEY: string;
   FROM_DOMAIN: string;
+  CUSTOM_TOKEN: string;
 }

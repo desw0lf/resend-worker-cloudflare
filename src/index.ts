@@ -1,26 +1,28 @@
-import { Resend } from "resend";
+import { Router, error, json } from "itty-router";
+import emailController from "./controllers/email";
+import authMiddleware from "./middlewares/auth";
+import emailValidationMiddleware from "./middlewares/email-validation";
+// ? TYPES:
+import type { EmailRequest, EmailRequestParsed } from "./types";
 
-export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		const RESEND_API_KEY = env.RESEND_API_KEY;
-		const fromDomain =  env.FROM_DOMAIN;
-		const defaultValues = {};
-		const fromUsername = "contact-noreply";
-		const fromLabel = "Info";
-		const resend = new Resend(RESEND_API_KEY);
+const router = Router();
 
-    const { data, error } = await resend.emails.send({
-      from: `${fromLabel} <${fromUsername}@${fromDomain}>`,
-			replyTo: ["anything@dasdsa46.com"],
-      to: "sample@example654.com",
-      subject: "Hello World2",
-      html: "<p>Hello3 from Workers</p>",
-    });
+// POST /api/email
+router.post<EmailRequest>("/send", authMiddleware, emailValidationMiddleware, async (request, env: Env) => {
+	try {
+		const response = await emailController.send(request as EmailRequestParsed, env);
+		return json(response);
+	} catch (errorStack: any) {
+		console.error(`Error sending email: ${errorStack}`);
+		return error(500, { errorStack });
+	}
 
-		if (error) {
-			return Response.json({ error }, { status: 400 });
-		}
+});
 
-		return Response.json(data);
-	},
-} satisfies ExportedHandler<Env>;
+router.get("/health", (_request) => {
+	return json({ message: "OK", timestampIso: new Date().toISOString(), status: 200 });
+});
+
+router.all("*", (_request) => error(404));
+
+export default router satisfies ExportedHandler<Env>;
