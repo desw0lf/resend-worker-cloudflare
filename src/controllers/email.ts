@@ -6,7 +6,7 @@ import type { EmailRequestParsed } from "../types";
 export default {
 	async send({ parsed }: EmailRequestParsed, env: Env): Promise<Response> {
 		const RESEND_API_KEY = env.RESEND_API_KEY;
-		const RESEND_DOMAIN =  env.FROM_DOMAIN;
+		const RESEND_DOMAIN =  env.RESEND_YOUR_DOMAIN;
 		const fromUsername = "contact-noreply"; // todo
 		const subject = parsed.subject || "Untitled";
 		const to = parsed.id;

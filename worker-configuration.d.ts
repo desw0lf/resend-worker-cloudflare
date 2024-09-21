@@ -2,6 +2,6 @@
 // After adding bindings to `wrangler.toml`, regenerate this interface via `npm run cf-typegen`
 interface Env {
   RESEND_API_KEY: string;
-  FROM_DOMAIN: string;
+  RESEND_YOUR_DOMAIN: string;
   CUSTOM_TOKEN: string;
 }
