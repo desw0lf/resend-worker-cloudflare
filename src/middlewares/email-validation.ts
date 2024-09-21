@@ -1,5 +1,5 @@
 import { error } from "itty-router";
-import { zEmailPayload } from "../schemas/email";
+import { zEmailPayload, zEmailQuery } from "../schemas/email";
 // ? TYPES:
 import type { EmailRequest } from "../types";
 
@@ -8,6 +8,10 @@ const emailValidationMiddleware = async (request: EmailRequest) => {
 	const parsed = zEmailPayload.safeParse(content);
 	if (parsed.success) {
 		request.parsed = parsed.data;
+		const parsedQuery = zEmailQuery.safeParse(request.query);
+		if (parsedQuery.success) {
+			request.query = parsedQuery.data;
+		}
 		return;
 	}
 
