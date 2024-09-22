@@ -8,7 +8,6 @@ import type { EmailRequest, EmailRequestParsed } from "./types";
 
 const router = Router();
 
-// POST /api/email
 router.post<EmailRequest>("/send", authMiddleware, metaMiddleware, emailValidationMiddleware, async (request, env: Env) => {
 	try {
 		const response = await emailController.send(request as EmailRequestParsed, env);

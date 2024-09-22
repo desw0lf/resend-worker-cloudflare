@@ -1,6 +1,7 @@
 // ? TYPES:
 import { IRequest } from "itty-router";
 import { EmailPayloadSchema, EmailQuerySchema } from "./schemas/email";
+import { ProfileSchema } from "./schemas/profile";
 
 
 export { EmailPayloadSchema };
@@ -12,6 +13,7 @@ export interface IRequest extends IRequest {
 type RequestExtend = {
 	parsed?: EmailPayloadSchema;
 	query: EmailQuerySchema;
+	profile: ProfileSchema;
 }
 export type EmailRequest = Omit<IRequest, "query"> & RequestExtend;
 

@@ -3,14 +3,18 @@
 
 ## Prerequisites
 1. [Add your domain to Resend.com](https://resend.com/docs/dashboard/domains/cloudflare)
-2. Generate Resend.com API key
+2. Generate Resend.com API key (`Sending access` Permission is sufficient)
 
 ## ENV Variables
-`RESEND_API_KEY` - API key from Resend.com
-`RESEND_YOUR_DOMAIN` - Domain name used Resend.com setup
-`AUTHORIZATION_TOKEN` - Custom Authorization token (can be any value you want, used in request 'Authorization' header)
+`RESEND_CONFIG` - which includes: 
+1. API key from Resend.com <`api_key`>
+2. Domain name used in Resend.com setup <`domain`>
+3. Custom profile name <`profile`> (used in request 'profile' header)
 
-Please look at `.dev.SAMPLE.vars` for examples, and to run locally create a `.dev.vars` with the provided keys, and filled in values.
+
+_(To add multiple profiles, you can use the `|` delimiter)_
+
+Please look at `.dev.SAMPLE.vars` for an example, and to run locally create a `.dev.vars` with the provided keys, and filled in values.
 
 ### Adding ENV variables/secrets via CLI
-`npx wrangler secret put VARIABLE_NAME_HERE`
+`npx wrangler secret put RESEND_CONFIG`

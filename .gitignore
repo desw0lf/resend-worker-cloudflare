@@ -170,4 +170,5 @@ dist
 
 .dev.vars
 .wrangler/
-.vscode/settings.json
+!.vscode/settings.json
+.vscode/

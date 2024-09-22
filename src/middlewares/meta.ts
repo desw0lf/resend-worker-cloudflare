@@ -9,7 +9,7 @@ const metaMiddleware = (request: Omit<IRequest, "query">) => {
   };
   const { ip, userAgent } = {
     userAgent: fromHeaders.userAgent ? fromHeaders.userAgent.substring(0, 250) : undefined,
-    ip: fromHeaders.ip ? fromHeaders.ip.substring(0, 40) : undefined,
+    ip: fromHeaders.ip ? fromHeaders.ip.substring(0, 40) : undefined, // not available when testing locally
   }
 
   const mapZoom = 7;
@@ -27,3 +27,5 @@ const metaMiddleware = (request: Omit<IRequest, "query">) => {
 };
 
 export default metaMiddleware;
+
+

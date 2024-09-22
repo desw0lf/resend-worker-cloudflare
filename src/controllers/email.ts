@@ -5,7 +5,7 @@ import { Resend } from "resend";
 import type { EmailRequestParsed } from "../types";
 
 export default {
-	async send({ parsed, query, meta }: EmailRequestParsed, env: Env): Promise<Response> {
+	async send({ parsed, query, meta, profile }: EmailRequestParsed, env: Env): Promise<Response> {
 		const template = {
 			footer: "",
 			main: ""
@@ -13,16 +13,13 @@ export default {
 		if (!query.noMeta) {
 			template.footer = buildMeta(meta);
 		}
-		const RESEND_API_KEY = env.RESEND_API_KEY;
-		const RESEND_DOMAIN =  env.RESEND_YOUR_DOMAIN;
-		const fromUsername = "contact-noreply"; // todo
 		const subject = parsed.subject || "Untitled";
 		const to = parsed.id;
 		template.main = `<p>${parsed.message}</p>`;
 
-		const resend = new Resend(RESEND_API_KEY);
+		const resend = new Resend(profile.api_key);
     const { data, error: err } = await resend.emails.send({
-      from: `${parsed.name} <${fromUsername}@${RESEND_DOMAIN}>`,
+      from: `${parsed.name} <${env.EMAIL_SENDER_USERNAME}@${profile.domain}>`,
 			replyTo: parsed.email,
       to: to,
       subject: subject,
