@@ -2,12 +2,16 @@
   "name": "resend-worker-cloudflare",
   "version": "0.0.0",
   "private": true,
+  "bin": {
+    "rwc-cli": "./cli.js"
+  },
   "scripts": {
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
+    "dev": "wrangler dev --env=local",
+    "start": "wrangler dev --env=local",
     "test": "vitest",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "encryption-setup": "tsc src/controllers/encryption.ts --module NodeNext --moduleResolution nodenext --outDir ."
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.2",

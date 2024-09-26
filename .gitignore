@@ -170,5 +170,7 @@ dist
 
 .dev.vars
 .wrangler/
+
 !.vscode/settings.json
 .vscode/
+/encryption.js

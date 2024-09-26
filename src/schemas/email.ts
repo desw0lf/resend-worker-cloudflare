@@ -2,12 +2,12 @@ import { z } from "zod";
 
 export const zEmailPayload = z.object({
   _gotcha: z.undefined().or(z.null()),
-  id: z.string(), // to
-  name: z.string(), // fromLabel
+  recipient: z.string().or(z.array(z.string())), // to
+  name: z.string().optional(), // fromLabel
   email: z.string().or(z.array(z.string())), // replyTo
   subject: z.string().optional(),
-  message: z.string()
-});
+  html: z.string()
+}).passthrough();
 
 const zodOptionalBool = z.union([
   z.boolean(),
@@ -15,9 +15,12 @@ const zodOptionalBool = z.union([
 ]).optional();
 
 export const zEmailQuery = z.object({
-  noMeta: zodOptionalBool.default(false),
+  includeMeta: zodOptionalBool.default(true),
   preventThreading: zodOptionalBool.default(true)
 });
 
-export type EmailPayloadSchema = z.infer<typeof zEmailPayload>;
+type PossibleExtraPayloadValue = string | number | boolean | null;
+type DynamicValues = Omit<Record<string, PossibleExtraPayloadValue | PossibleExtraPayloadValue[]>, keyof typeof zEmailPayload.shape>;
+
+export type EmailPayloadSchema = z.infer<typeof zEmailPayload> & DynamicValues;
 export type EmailQuerySchema = z.infer<typeof zEmailQuery>;

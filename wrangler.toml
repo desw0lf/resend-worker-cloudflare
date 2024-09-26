@@ -7,4 +7,8 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 EMAIL_SENDER_USERNAME = "submissions-noreply" # this will translate to: `From: submissions-noreply@yourdomain.com`
 
-
+[env]
+  [env.local]
+    [env.local.vars]
+      EMAIL_SENDER_USERNAME = "submissions-noreply"
+      WORKER_ENV = "local"

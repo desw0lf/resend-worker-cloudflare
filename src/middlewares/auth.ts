@@ -9,7 +9,7 @@ const authMiddleware = (request: Omit<IRequest, "query">, env: Env) => {
 		return error(401, { description: "INVALID SETUP" });
 	}
 
-	const profileHeader = request.headers.get("profile");
+	const profileHeader = request.headers.get("profile") || request.params.profile;
 
 	const profiles = env.RESEND_CONFIG.split("|").map((profileStr) => Object.fromEntries(new URLSearchParams(profileStr).entries()));
 
