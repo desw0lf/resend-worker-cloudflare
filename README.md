@@ -20,6 +20,7 @@
 
 1. **Install dependencies**: Run `npm install` to install the required dependencies.
 2. **Run the setup script**: Run `./cli.js` and follow the instructions.
+
 This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
 4. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
    * `npx wrangler secret put RESEND_CONFIG`
@@ -39,6 +40,7 @@ To send an email, make a request to the Cloudflare Worker with the required para
 `[POST] /send/:profile`
 
 Content type: `application/json` and `application/x-www-form-urlencoded` are supported.
+
 _(Alternatively `[POST] /send` with the `profile` header.)_
 
 Required payload values:
