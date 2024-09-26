@@ -19,12 +19,13 @@
 ## Getting Started
 
 1. **Install dependencies**: Run `npm install` to install the required dependencies.
-2. **Run the setup script**: Run `./cli.js` and follow the instructions. This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
-3. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
+2. **Run the setup script**: Run `./cli.js` and follow the instructions.
+This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
+4. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
    * `npx wrangler secret put RESEND_CONFIG`
    * `npx wrangler secret put SALT`
-   Alternatively, you can set these values via your Cloudflare Dashboard.
-4. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
+   _(Alternatively, you can set these values via your Cloudflare Dashboard.)_
+5. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
 
 ## Usage
 
@@ -36,7 +37,9 @@ To send an email, make a request to the Cloudflare Worker with the required para
 
 #### Request Payload
 `[POST] /send/:profile`
-Content type: "application/json" and "application/x-www-form-urlencoded" are supported. Alternatively `[POST] /send` with the `profile` header.
+
+Content type: `application/json` and `application/x-www-form-urlencoded` are supported.
+_(Alternatively `[POST] /send` with the `profile` header.)_
 
 Required payload values:
 * `recipient`: The recipient email address. For multiple addresses, send as an array of strings. Max 50. e.g. "yourpersonalemail@gmail.com" (**this can be the encrypted email or plain email**)
