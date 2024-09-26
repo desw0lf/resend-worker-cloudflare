@@ -23,11 +23,11 @@
 
 This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
 
-4. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
+3. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
    * `npx wrangler secret put RESEND_CONFIG`
    * `npx wrangler secret put SALT`
    _(Alternatively, you can set these values via your Cloudflare Dashboard.)_
-5. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
+4. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
 
 ## Usage
 
