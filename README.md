@@ -22,6 +22,7 @@
 2. **Run the setup script**: Run `./cli.js` and follow the instructions.
 
 This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
+
 4. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
    * `npx wrangler secret put RESEND_CONFIG`
    * `npx wrangler secret put SALT`
