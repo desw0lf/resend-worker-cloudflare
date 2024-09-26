@@ -90,22 +90,16 @@ Optional parameters:
 
 ### Encrypting Emails
 
-For added security, you can encrypt the recipient email address before including it in the payload. There are two methods to encrypt an email:
+For added security, you can encrypt the recipient email address before including it in the payload.
 
-1. Use the Node script:
-   Run the following command to set up encryption dependency and encrypt an email:
-      ```
-      npm run encryption-setup && ./encrypt.mjs --encrypt=johndoe@example.com
-      ```
+Run your worker locally and use the encrypt endpoint:
 
+  ```
+  npm run start
+  ```
+  Then navigate to `http://localhost:8787/encrypt?email=johndoe@example.com`
 
-2. Run your worker locally and use the encrypt endpoint:
-   ```
-   npm run start
-   ```
-   Then navigate to `http://localhost:8787/encrypt?email=johndoe@example.com`
-
-   _Note: This endpoint is not exposed to live._
+  _Note: This endpoint is not exposed to live._
 
 ## Environment Variables
 
