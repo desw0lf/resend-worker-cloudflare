@@ -2,6 +2,8 @@
 
 > Send transactional emails from your Cloudflare Workers using Resend.com. Perfect for contact forms.
 
+![resend_cloudflare_worker_banner](https://github.com/user-attachments/assets/5c491293-9db8-45dc-961b-3a45b2136f55)
+
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
