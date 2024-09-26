@@ -1,13 +1,18 @@
-import { Router, error, json } from "itty-router";
+import { Router, cors, error, json } from "itty-router";
 import encryptionController from "./controllers/encryption";
 import emailController from "./controllers/email";
 import metaMiddleware from "./middlewares/meta";
 import authMiddleware from "./middlewares/auth";
 import emailValidationMiddleware from "./middlewares/email-validation";
 // ? TYPES:
-import type { EmailRequest, EmailRequestParsed } from "./types";
+import type { RouterType } from "itty-router";
+import type { EmailRequest, EmailRequestParsed, IRequest } from "./types";
 
-const router = Router();
+const { preflight, corsify } = cors();
+const router: RouterType<IRequest, any[], any> = Router({
+	before: [preflight],
+  finally: [corsify],
+});
 
 router.post<EmailRequest>("/send/:profile", authMiddleware, metaMiddleware, emailValidationMiddleware, async (request, env: Env) => {
 	try {
