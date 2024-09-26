@@ -72,6 +72,8 @@ Optional values:
 }
 ```
 
+[Bruno](https://www.usebruno.com/) collection available in `bruno` folder.
+
 _Note: From Resend.com the `react`, `from`, `to` parameters are not supported._
 
 #### Search Parameters

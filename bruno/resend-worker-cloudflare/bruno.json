@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "resend-worker-cloudflare",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

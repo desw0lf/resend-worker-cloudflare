@@ -1,0 +1,23 @@
+meta {
+  name: Send
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base}}/send/{{profile}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "recipient": ["john.smith@example9.com", "cFve0YGX4xJtFE5R0bSql/mCF+oAYllADZUf3o8gH829D79NxsURrhrSOrn2Uw=="],
+    "name": "John Smith",
+    "email": "john@gmeil.com",
+    "html": "<p>My sample message from API</p>",
+    "subject": "What is love?",
+    ":Favourite pet": "Dragon",
+    ":Favourite Colour": "Orange"
+  }
+}
