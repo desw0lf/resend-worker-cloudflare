@@ -7,7 +7,7 @@ import type { EmailRequestParsed } from "../types";
 
 export default {
 	async send({ parsed: fullParsed, query, meta, profile }: EmailRequestParsed, env: Env): Promise<Response> {
-		const { react: _2, from: _3, to: _4, ...parsed } = fullParsed;
+		const { react: _2, from: _3, to: _4, reply_to: _5, replyTo: _6, ...parsed } = fullParsed;
 		const restHeaders = parsed.headers || {};
 		const subject = parsed.subject || "Untitled";
 		const to = parsed.recipient;
