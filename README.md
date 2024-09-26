@@ -28,6 +28,7 @@ This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
 3. **Set environment variables**: Use the created `RESEND_CONFIG` and `SALT` values and run:
    * `npx wrangler secret put RESEND_CONFIG`
    * `npx wrangler secret put SALT`
+   
    _(Alternatively, you can set these values via your Cloudflare Dashboard.)_
 4. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
 
@@ -40,28 +41,25 @@ This section covers how to use the Cloudflare Worker to send emails through Rese
 To send an email, make a request to the Cloudflare Worker with the required parameters. The worker handles the email sending process using Resend.com, based on the [Resend.com - [POST] Send Email endpoint](https://resend.com/docs/api-reference/emails/send-email).
 
 #### Request Payload
-`[POST] /send/:profile`
+`[POST] /send/:profile` OR `[POST] /send` with the `profile` header
 
-Content type: `application/json` and `application/x-www-form-urlencoded` are supported.
-
-_(Alternatively `[POST] /send` with the `profile` header.)_
+_Content type: `application/json` and `application/x-www-form-urlencoded` are supported._
 
 Required payload values:
-* `recipient`: The recipient email address. For multiple addresses, send as an array of strings. Max 50. e.g. "yourpersonalemail@gmail.com" (**this can be the encrypted email or plain email**)
-* `email`: The reply-to email address. For multiple addresses, send as an array of strings, e.g. "john.smith@example.com"
-* `html`: The HTML version of the message
+* `recipient`: string | string[] - The recipient email address. Max 50. e.g. "yourpersonalemail@gmail.com" (**this can be the encrypted email or plain email**)
+* `email`: string | string[] - The reply-to email address. e.g. "john.smith@example.com"
+* `html`: string - The HTML version of the message
 
 Optional values:
-* `name`: The sender label, e.g. "John Smith".
-* `subject`: The email subject.
-* `bcc`: The Bcc recipient email address. For multiple addresses, send as an array of strings.
-* `cc`: The Cc recipient email address. For multiple addresses, send as an array of strings.
-* `scheduled_at`: Schedule email to be sent later. The date should be in ISO 8601 format (e.g: 2024-08-05T11:52:01.858Z).
-* `reply_to`: The reply-to email address. For multiple addresses, send as an array of strings.
-* `text`: The plain text version of the message.
-* `headers`: Custom headers to add to the email.
-* `attachments`: Filename and content of attachments (max 40mb per email).
-* `tags`: Custom data passed in key/value pairs.
+* `name`: string - The sender label, e.g. "John Smith".
+* `subject`: string - The email subject.
+* `bcc`: string | string[] - The Bcc recipient email address.
+* `cc`: string | string[] - The Cc recipient email address.
+* `scheduled_at`: string - Schedule email to be sent later. The date should be in ISO 8601 format (e.g: 2024-08-05T11:52:01.858Z).
+* `text`: string - The plain text version of the message.
+* `headers`: object - Custom headers to add to the email.
+* `attachments`: object[] - Filename and content of attachments (max 40mb per email) ([example](https://resend.com/docs/dashboard/emails/attachments)).
+* `tags`: object[] - Custom data passed in key/value pairs ([example](https://resend.com/docs/dashboard/emails/tags)).
 * Any key starting with `:` will be appended to the `html` message as additional content.
 
 #### Example Request
@@ -82,17 +80,17 @@ Optional values:
 
 [Bruno](https://www.usebruno.com/) collection available in `bruno` folder.
 
-_Note: From Resend.com the `react`, `from`, `to` parameters are not supported._
+_Note: From Resend.com the `react`, `from`, `to`, `reply_to` parameters are not supported._
 
 #### Search Parameters
 
 Optional parameters:
-* `includeMeta`: Should collect information about the sender, such as userAgent, Location, IP address etc (default: true) 
-* `preventThreading`: Should prevent threading e.g. in Gmail (default: true)
+* `includeMeta`: Should collect information about the sender, such as userAgent, Location, IP address etc (default: `true`) 
+* `preventThreading`: Should prevent threading e.g. in Gmail (default: `true`)
 
 ### Encrypting Emails
 
-For added security, you can encrypt email addresses before sending them. There are two methods to encrypt an email:
+For added security, you can encrypt the recipient email address before including it in the payload. There are two methods to encrypt an email:
 
 1. Use the Node script:
    Run the following command to set up encryption dependency and encrypt an email:
