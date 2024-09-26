@@ -10,7 +10,6 @@ export async function parseRequest(request: EmailRequest) {
   
   if (contentType.startsWith("application/x-www-form-urlencoded")) {
     const formData = await request.formData();
-    console.log(formData);
     const data: Record<string, string | string[]> = {};
     for (const [key, value] of formData.entries()) {
       if (formData.getAll(key).length > 1) {

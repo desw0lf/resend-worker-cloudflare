@@ -18,7 +18,6 @@ const emailValidationMiddleware = async (request: EmailRequest, env: Env) => {
     return value.includes("@") || !salt ? Promise.resolve(value) : encryptionController.decrypt(value, salt);
 	}
 	const recipient = await decryptEmailIfNeeded(parsed.data.recipient, env.SALT);
-	console.log({recipient});
 	request.parsed = {
 		...parsed.data,
 		recipient
