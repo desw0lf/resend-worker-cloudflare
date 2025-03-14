@@ -4,6 +4,9 @@ main = "src/index.ts"
 compatibility_date = "2024-09-19"
 compatibility_flags = ["nodejs_compat"]
 
+[observability.logs]
+enabled = true
+
 [vars]
 EMAIL_SENDER_USERNAME = "submissions-noreply" # this will translate to: `From: submissions-noreply@yourdomain.com`
 

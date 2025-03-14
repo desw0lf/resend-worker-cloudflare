@@ -20,7 +20,7 @@
     "resend": "^4.0.0",
     "typescript": "^5.5.2",
     "vitest": "2.0.5",
-    "wrangler": "^3.60.3",
+    "wrangler": "^4.0.0",
     "zod": "^3.23.8"
   }
 }
