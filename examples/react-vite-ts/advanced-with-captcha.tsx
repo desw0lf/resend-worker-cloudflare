@@ -2,13 +2,12 @@ import { useState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useSimpleForm } from "./hooks/use-simple-form.ts";
 import { useFetch } from "./hooks/use-fetch.ts";
-import { useResize } from "./hooks/use-resize.ts";
 import { ContactInput } from "./components/contact-input.tsx";
 import { ContactError } from "./components/contact-error.tsx";
 import SendIcon from "./components/send-svg.tsx";
 import validators from "./validators/contact.validator.ts";
 // sample:
-import "./css/sample-styles.css";
+import "./_extras/sample-styles.css";
 
 // if using captcha, requires: `npm i @marsidev/react-turnstile`
 
@@ -73,14 +72,4 @@ export const AdvancedContactFormWithCaptcha = () => {
       </button>
     </footer>
   </form>;
-}
-
-
-export const GlowContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const containerRef = useResize((el) => {
-    const { x, y } = el.getBoundingClientRect();
-    document.documentElement.style.setProperty("--base-x", x.toFixed(2));
-    document.documentElement.style.setProperty("--base-y", y.toFixed(2));
-  });
-  return <article ref={containerRef} data-glow><div data-glow></div>{children}</article>
 }
