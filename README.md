@@ -23,6 +23,12 @@
 
 ## Getting Started
 
+### Quick Deployment
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/desw0lf/resend-worker-cloudflare)
+
+<details>
+<summary><h3>Manual Deployment</h3></summary>
+
 1. **Install dependencies**: Run `npm install` to install the required dependencies.
 2. **Run the setup script**: Run `./cli.js` and follow the instructions.
 
@@ -34,6 +40,7 @@ This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
    
    _(Alternatively, you can set these values via your Cloudflare Dashboard.)_
 4. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
+</details>
 
 ## Usage
 
