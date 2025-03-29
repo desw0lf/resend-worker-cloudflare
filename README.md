@@ -109,6 +109,10 @@ Optional values:
 
 _Note: From Resend.com the `react`, `from`, `to`, `reply_to` parameters are not supported._
 
+#### Examples
+
+Examples can be found in the [examples](./examples) folder.
+
 #### Search Parameters
 
 Optional parameters:
@@ -119,14 +123,16 @@ Optional parameters:
 
 For added security, you can encrypt the recipient email address before including it in the payload. Either:
 
-a) Run your worker locally and use the encrypt endpoint:
+#### Locally
+Run your worker locally and use the encrypt endpoint:
 
   ```
   npm run start
   ```
   Then navigate to `http://localhost:8787/encrypt?email=johndoe@example.com`
 
-b) Set `ENCRYPT_EMAIL_PATH` as your environment variable and navigate to `https://yourworkerurl.com/encrypt/${ENCRYPT_EMAIL_PATH}?email=johndoe@example.com`
+#### Live
+Set `ENCRYPT_EMAIL_PATH` as your environment variable and navigate to `https://yourworkerurl.com/encrypt/${ENCRYPT_EMAIL_PATH}?email=johndoe@example.com`
 
 ## Changing the Sender Name/Label
 

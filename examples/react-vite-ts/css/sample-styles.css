@@ -1,0 +1,418 @@
+/* Base author & Inspiration: https://codepen.io/jh3y/pen/oNVvQRo */
+:root {
+	--backdrop: hsl(0 0% 60% / 0.12);
+  --radius: 14;
+  --border: 3;
+  --backup-border: var(--backdrop);
+  --size: 200;
+  --base-x: 0;
+  --base-y: 0;
+}
+
+/* article:first-of-type {
+	--base: 80;
+	--spread: 500;
+	--outer: 1;
+}
+article:last-of-type {
+	--outer: 1;
+	--base: 220;
+	--spread: 200;
+} */
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+body {
+	display: grid;
+	place-items: center;
+	min-height: 100vh;
+  overflow: hidden;
+}
+
+.wrapper {
+	position: relative;
+}
+
+article {
+  aspect-ratio: 3 / 4;
+  border-radius: calc(var(--radius) * 1px);
+  width: 480px;
+  position: relative;
+	grid-template-rows: 1fr auto;
+  box-shadow: 0 1rem 2rem -1rem black;
+  /* padding: 1rem; */
+  display: grid;
+  gap: 1rem;
+  backdrop-filter: blur(calc(var(--cardblur, 5) * 1px));
+}
+/* main {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 120ch;
+  max-width: calc(100vw - 2rem);
+  position: relative;
+} */
+
+/* Glow specific styles */
+[data-glow] {
+  --border-size: calc(var(--border, 2) * 1px);
+  --spotlight-size: calc(var(--size, 150) * 1px);
+  --hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
+  --hue2: calc(var(--base) + (var(--xp2, 0) * var(--spread, 0)));
+  background-image: radial-gradient(
+    var(--spotlight-size) var(--spotlight-size) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
+  ),
+  radial-gradient(
+    var(--spotlight-size) var(--spotlight-size) at
+    calc(var(--x2, 0) * 1px)
+    calc(var(--y2, 0) * 1px),
+    hsl(var(--hue2, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 70) * 1%) / var(--bg-spot-opacity, 0.1)), transparent
+  );
+  background-color: var(--backdrop, transparent);
+  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  border: var(--border-size) solid var(--backup-border);
+  position: relative;
+  touch-action: none;
+}
+
+[data-glow]::before,
+[data-glow]::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: calc(var(--border-size) * -1);
+  border: var(--border-size) solid transparent;
+  border-radius: calc(var(--radius) * 1px);
+  background-attachment: fixed;
+  background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(white, white);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+}
+
+/* This is the emphasis light */
+[data-glow]::before {
+  background-image: radial-gradient(
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(var(--hue, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)), transparent 100%
+  ),
+  radial-gradient(
+    calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+    calc(var(--x2, 0) * 1px)
+    calc(var(--y2, 0) * 1px),
+    hsl(var(--hue2, 210) calc(var(--saturation, 100) * 1%) calc(var(--lightness, 50) * 1%) / var(--border-spot-opacity, 1)), transparent 100%
+  );
+  filter: brightness(2);
+}
+/* This is the spotlight */
+[data-glow]::after {
+  background-image: radial-gradient(
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+    calc(var(--x, 0) * 1px)
+    calc(var(--y, 0) * 1px),
+    hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
+  ),
+  radial-gradient(
+    calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+    calc(var(--x2, 0) * 1px)
+    calc(var(--y2, 0) * 1px),
+    hsl(0 100% 100% / var(--border-light-opacity, 1)), transparent 100%
+  );
+}
+[data-glow] [data-glow] {
+  position: absolute;
+  inset: 0;
+  will-change: filter;
+  opacity: var(--outer, 1);
+}
+[data-glow] > [data-glow] {
+  border-radius: calc(var(--radius) * 1px);
+  border-width: calc(var(--border-size) * 20);
+  filter: blur(calc(var(--border-size) * 10));
+  background: none;
+  pointer-events: none;
+}
+[data-glow] > [data-glow]::before {
+  inset: -10px;
+  border-width: 10px;
+}
+[data-glow] [data-glow] {
+  border: none;
+}
+[data-glow] :is(a, button) {
+  border-radius: calc(var(--radius) * 1px);
+  border: var(--border-size) solid transparent;
+}
+[data-glow] :is(a, button) [data-glow] {
+  background: none;
+}
+[data-glow] :is(a, button) [data-glow]::before {
+  inset: calc(var(--border-size) * -1);
+  border-width: calc(var(--border-size) * 1);
+}
+
+/* Base - End */
+article {
+	--outer: 1;
+	--base: 220;
+	--spread: 200;
+  --x: calc(460 + var(--base-x));
+  --y: calc(80 + var(--base-y));
+  --xp: 0.37;
+  --x2: calc(3 + var(--base-x));
+  --y2: calc(560 + var(--base-y));
+  --xp2: 0.03;
+}
+/* other resets */
+html {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: rgb(var(--body));
+  color: white;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input, textarea {
+  width: 100%;
+  line-height: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+textarea {
+  field-sizing: content;
+  min-height: 4lh;
+  resize: vertical;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: 2px;
+}
+
+p { margin: 0; }
+
+/* form */
+:root {
+  color-scheme: dark;
+  --input-radius: 6px;
+  --input-border: calc(var(--border) * 1px);
+  --outline: hsl(0deg 0% 100% / 25%);
+  --primary: 24, 80, 129;
+  --error: #f76767;
+  --body: 1, 12, 21;
+}
+
+header {
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0;
+  margin-bottom: 6px;
+}
+
+p {
+  font-size: 22px;
+  line-height: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 34px;
+}
+
+footer {
+  margin-top: auto;
+}
+
+textarea, input {
+  --bg-opacity: 0.05;
+  border-radius: var(--input-radius);
+  vertical-align: top;
+  /* height: 38px; */
+  box-shadow: none;
+  border: none;
+  background-color: hsla(0, 0%, 100%, var(--bg-opacity));
+  padding: 8px 8px;
+  font-size: 16px;
+  transition: background-color 0.2s ease-in-out;
+  &::placeholder {
+    color: white;
+    opacity: 0.4;
+  }
+  &:hover {
+    --bg-opacity: 0.08;
+  }
+  &:active,
+  &:focus {
+    --bg-opacity: 0.1;
+  }
+}
+
+/* input {
+  padding: 4px 8px;
+} */
+
+button[type="submit"] {
+  --t: cubic-bezier(0,0,.2,1);
+  --bg: var(--primary);
+  --bg-opacity: 1;
+  --border: 50, 140, 252;
+  --border-opacity: 0.3;
+  width: 100%;
+  padding: 8px 0;
+  border-radius: var(--input-radius);
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  background-color: rgba(var(--bg), var(--bg-opacity));
+  border:  var(--input-border) solid rgba(var(--border), var(--border-opacity));
+  transition: 0.2s var(--t) background-color, 0.2s var(--t) border-color, 0.2s var(--t) transform;
+
+  &:hover, &:focus-visible {
+    --bg-opacity: 0.95;
+    --border-opacity: 0.9;
+  }
+  &:disabled {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.9;
+  }
+  svg path {
+    transition: 0.2s var(--t) opacity;
+  }
+}
+
+.check {
+  transform: scale(0.8);
+  transform-origin: center right;
+}
+
+.plane { opacity: 1; }
+.check { opacity: 0; }
+
+[data-status="SUCCESS"] {
+  button[type="submit"] {
+    --bg: 0, 98, 57;
+    --border: 62, 207, 142;
+  }
+  .plane { opacity: 0; }
+  .check { opacity: 1; }
+  input, textarea {
+    opacity: 0.6;
+    --bg-opacity: 0.01;
+    resize: none;
+    pointer-events: none;
+  }
+  #cf-turnstile {
+    opacity: 0;
+  }
+}
+
+.contact__error {
+  color: var(--error);
+  font-size: 13px;
+}
+
+/* captcha */
+#cf-turnstile {
+  --captcha-bg: #232323;
+  min-height: 65px;
+  position: relative;
+  opacity: 0.8;
+  transition: 0.7s ease opacity;
+  > div {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    border-radius: calc(var(--input-radius) + 2px);
+    background: var(--captcha-bg);
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: var(--input-border) solid var(--captcha-bg);
+      border-radius: var(--input-radius);
+    }
+  }
+}
+/* debug */
+#debug {
+  position: absolute;
+  opacity: 0.3;
+}
+/* loader button */
+/* source: https://uiverse.io/adamgiebl/smart-moth-68 */
+button[type="submit"] {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  > span {
+    display: block;
+    transition: all 0.3s ease-in-out;
+  }
+  svg {
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.3s ease-in-out;
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+}
+[data-status="LOADING"] button[type="submit"] {
+  > span {
+    transform: translateX(15em);
+  }
+  svg {
+    transform: translateX(1.2em) rotate(45deg) scale(1.1);
+  }
+  > .svg-wrapper {
+    animation: fly-1 0.6s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes fly-1 {
+  from {  transform: translateY(0.1em); }
+  to { transform: translateY(-0.1em); }
+}
