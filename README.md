@@ -9,10 +9,10 @@
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
 - [Usage](#usage)
   - [Sending Emails](#sending-emails)
   - [Encrypting Emails](#encrypting-emails)
-- [Environment Variables](#environment-variables)
 - [Changing the Sender Username](#changing-the-sender-username)
 - [Adding Cloudflare Turnstile captcha](#adding-cloudflare-turnstile-captcha)
 
@@ -41,6 +41,23 @@ This will create a `.dev.vars` file with your `RESEND_CONFIG` and `SALT` values.
    _(Alternatively, you can set these values via your Cloudflare Dashboard.)_
 4. **Deploy the Cloudflare Worker**: Run `npm run deploy` to deploy the Cloudflare Worker.
 </details>
+
+## Environment Variables
+
+The following environment variables are used in this project:
+[![resend_config_preview](https://github.com/user-attachments/assets/0c7edbc7-9758-4dd8-8433-7defc6680ce5)](#)
+
+* `RESEND_CONFIG`*: includes:
+  + API key from Resend.com (`api_key`)
+  + Domain name used in Resend.com setup (`domain`)
+  + Custom profile name (`profile`) (used in request 'profile' header or path param)
+
+_Multiple configs supported via `|` separator_
+
+### Optional
+* `SALT`: a random value used for recipient email encryption (if you want to obfuscate your email address)
+* `ENCRYPT_EMAIL_PATH`: URL path suffix for email encryption (if you wish to expose the email encryption URL to live environment)
+* `CAPTCHA_SECRETS`: Cloudflare Turnstile captcha secrets keys (if you need captcha validation before sending email)
 
 ## Usage
 
@@ -100,32 +117,16 @@ Optional parameters:
 
 ### Encrypting Emails
 
-For added security, you can encrypt the recipient email address before including it in the payload.
+For added security, you can encrypt the recipient email address before including it in the payload. Either:
 
-Run your worker locally and use the encrypt endpoint:
+a) Run your worker locally and use the encrypt endpoint:
 
   ```
   npm run start
   ```
   Then navigate to `http://localhost:8787/encrypt?email=johndoe@example.com`
 
-  _Note: This endpoint is not exposed to live._
-
-## Environment Variables
-
-The following environment variables are used in this project:
-[![resend_config_preview](https://github.com/user-attachments/assets/0c7edbc7-9758-4dd8-8433-7defc6680ce5)](#)
-
-* `RESEND_CONFIG`*: includes:
-  + API key from Resend.com (`api_key`)
-  + Domain name used in Resend.com setup (`domain`)
-  + Custom profile name (`profile`) (used in request 'profile' header or path param)
-
-_Multiple configs supported via `|` separator_
-
-### Optional
-* `SALT`: a random value used for recipient email encryption (if you want to obfuscate your email address)
-* `CAPTCHA_SECRETS`: Cloudflare Turnstile captcha secrets keys (if you need captcha validation before sending email)
+b) Set `ENCRYPT_EMAIL_PATH` as your environment variable and navigate to `https://yourworkerurl.com/encrypt/${ENCRYPT_EMAIL_PATH}?email=johndoe@example.com`
 
 ## Changing the Sender Name/Label
 

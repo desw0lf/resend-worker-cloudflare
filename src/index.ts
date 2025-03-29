@@ -35,8 +35,10 @@ router.get("/health", (_request) => {
   return json({ message: "OK", timestampIso: new Date().toISOString(), status: 200 });
 });
 
-router.get<any>("/encrypt", async (request, env: Env) => {
-  if (env.WORKER_ENV !== "local") {
+router.get<any>("/encrypt/:encryptPath?", async (request, env: Env) => {
+  const isEncryptPathCorrect = typeof env.ENCRYPT_EMAIL_PATH === "string" ? request.params.encryptPath === env.ENCRYPT_EMAIL_PATH : false;
+
+  if (!isEncryptPathCorrect && env.WORKER_ENV !== "local") {
     return;
   }
   if (!env.SALT || !request.query.email) {

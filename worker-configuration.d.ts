@@ -6,4 +6,5 @@ interface Env {
 	SALT?: string;
 	WORKER_ENV?: "local" | string | {};
 	CAPTCHA_SECRETS?: string;
+  ENCRYPT_EMAIL_PATH?: string;
 }
