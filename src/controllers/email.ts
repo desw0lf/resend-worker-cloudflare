@@ -28,6 +28,16 @@ export default {
     });
 
     if (err) {
+      if (err.name === "validation_error") {
+        const fieldPlot = {
+          reply_to: "email"
+        } as const;
+        const match = err.message.match(/`([^`]*)`/);
+        const found = match ? match[1] : "_global";
+        const field = fieldPlot[found as keyof typeof fieldPlot] || found;
+        // imitate zod, (replace message with fieldPlot value?)
+        return error((err as any).statusCode, { validation: [{...err, path: [field] }] });
+      }
       return error(400, err);
     }
 

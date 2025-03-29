@@ -1,10 +1,15 @@
 // ? TYPES:
-import type { EmailRequest } from "../types";
+import type { IRequest } from "../types";
 
-export async function parseRequest(request: EmailRequest) {
+export async function parseContent<T = any>(request: Omit<IRequest, "query">): Promise<T> {
+  if (request.parsedContent) {
+    return request.parsedContent;
+  }
   const contentType = request.headers.get("content-type") || "";
   if (contentType === "application/json") {
     const content = await request.json();
+
+    request.parsedContent = content;
     return content;
   }
   
@@ -22,7 +27,8 @@ export async function parseRequest(request: EmailRequest) {
       data[key] = value.toString();
     }
     
-    return data;
+    request.parsedContent = data;
+    return data as T;
   }
 
   throw new Error("Unsupported content type");

@@ -14,6 +14,8 @@ type RequestExtend = {
   parsed?: EmailPayloadSchema;
   query: EmailQuerySchema;
   profile: ProfileSchema;
+  responseHeaders?: [string, string][];
+  parsedContent?: any;
 }
 export type EmailRequest = Omit<IRequest, "query"> & RequestExtend;
 

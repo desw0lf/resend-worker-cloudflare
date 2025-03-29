@@ -5,4 +5,5 @@ interface Env {
 	RESEND_CONFIG: string;
 	SALT?: string;
 	WORKER_ENV?: "local" | string | {};
+	CAPTCHA_SECRETS?: string;
 }

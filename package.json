@@ -1,6 +1,6 @@
 {
   "name": "resend-worker-cloudflare",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "bin": {
     "rwc-cli": "./cli.js"

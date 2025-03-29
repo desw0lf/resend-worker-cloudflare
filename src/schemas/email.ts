@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const zEmailPayload = z.object({
   _gotcha: z.undefined().or(z.null()),
-  recipient: z.string().or(z.array(z.string())), // to
+  recipient: z.string().min(7).or(z.array(z.string().min(7))), // to
   name: z.string().optional(), // fromLabel
-  email: z.string().or(z.array(z.string())), // replyTo
+  email: z.string().min(7).or(z.array(z.string().min(7))), // replyTo
   subject: z.string().optional(),
   html: z.string()
 }).passthrough();

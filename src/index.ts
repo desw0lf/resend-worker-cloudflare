@@ -3,6 +3,7 @@ import encryptionController from "./controllers/encryption";
 import emailController from "./controllers/email";
 import metaMiddleware from "./middlewares/meta";
 import authMiddleware from "./middlewares/auth";
+import captchaMiddleware from "./middlewares/captcha";
 import emailValidationMiddleware from "./middlewares/email-validation";
 // ? TYPES:
 import type { RouterType } from "itty-router";
@@ -14,16 +15,20 @@ const router: RouterType<IRequest, any[], any> = Router({
   finally: [corsify],
 });
 
-router.post<EmailRequest>("/send/:profile", authMiddleware, metaMiddleware, emailValidationMiddleware, async (request, env: Env) => {
+router.post<EmailRequest>("/send/:profile?", authMiddleware, captchaMiddleware, metaMiddleware, emailValidationMiddleware, async (request, env: Env) => {
   try {
     const response = await emailController.send(request as EmailRequestParsed, env);
     // return text(undefined, { status: 302, headers: { Location: "https://google.com" } });
-    return json(response);
+    const res = json(response);
+    const headerList = request.responseHeaders || [];
+    headerList.forEach(([key, value]) => {
+      res.headers.append(key, value);
+    });
+    return res;
   } catch (err: any) {
     console.error(`Error sending email: ${err}`);
     return error(500, err);
   }
-
 });
 
 router.get("/health", (_request) => {

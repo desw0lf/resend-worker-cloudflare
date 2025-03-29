@@ -2,9 +2,9 @@
 
 > Send transactional emails from your Cloudflare Workers using Resend.com. Perfect for contact forms.
 
-![demo_contact_gif](https://github.com/user-attachments/assets/4c521d52-3412-4760-ae72-9e617b016023)
-![demo_payload](https://github.com/user-attachments/assets/1c233d41-4e3e-45d6-976f-050b5bbf93cc)
-![demo_output](https://github.com/user-attachments/assets/1903a877-b84a-4ce2-858b-ef6bc94521ae)
+[![demo_contact_gif](https://github.com/user-attachments/assets/4c521d52-3412-4760-ae72-9e617b016023)](#)
+[![demo_payload](https://github.com/user-attachments/assets/1c233d41-4e3e-45d6-976f-050b5bbf93cc)](#)
+[![demo_output](https://github.com/user-attachments/assets/1903a877-b84a-4ce2-858b-ef6bc94521ae)](#)
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
@@ -14,10 +14,11 @@
   - [Encrypting Emails](#encrypting-emails)
 - [Environment Variables](#environment-variables)
 - [Changing the Sender Username](#changing-the-sender-username)
+- [Adding Cloudflare Turnstile captcha](#adding-cloudflare-turnstile-captcha)
 
 ## Prerequisites
 
-1. **Add your domain to Resend.com**: Follow the instructions on the [Resend.com dashboard](https://resend.com/docs/dashboard/domains/cloudflare) to add your domain.
+1. **Add your domain to Resend.com**: Follow the instructions on the [Resend.com dashboard](https://resend.com/docs/knowledge-base/cloudflare) to add your domain.
 2. **Generate Resend.com API key**: Create a new API key with `Sending access` permission. This will be used to authenticate your emails.
 
 ## Getting Started
@@ -111,12 +112,21 @@ The following environment variables are used in this project:
 * `RESEND_CONFIG`*: includes:
   + API key from Resend.com (`api_key`)
   + Domain name used in Resend.com setup (`domain`)
-  + Custom profile name (`profile`) (used in request 'profile' header)
-* `SALT`: a random value used for encryption
+  + Custom profile name (`profile`) (used in request 'profile' header or path param)
 
-## Changing the Sender Username
+_Multiple configs supported via `|` separator_
+
+### Optional
+* `SALT`: a random value used for recipient email encryption (if you want to obfuscate your email address)
+* `CAPTCHA_SECRETS`: Cloudflare Turnstile captcha secrets keys (if you need captcha validation before sending email)
+
+## Changing the Sender Name/Label
 
 By default, the sender username is set to `submissions-noreply`, which translates to the sender being `submissions-noreply@yourdomain.com`. If you wish to change this, you can edit the `EMAIL_SENDER_USERNAME` value in `wrangler.toml` and deploy, or set it via your Cloudflare Dashboard.
+
+## Adding Cloudflare Turnstile captcha
+Follow the [Get started with Turnstile](https://developers.cloudflare.com/turnstile/get-started/) guide and use the turnstile `sitekey` in `CAPTCHA_SECRETS` environment variable. For example: `profile=main&key=1x0000000000000000000000000000000AA`
+
 
 ## Roadmap
 - Add configurable CORS policies

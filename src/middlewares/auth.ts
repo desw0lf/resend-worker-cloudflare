@@ -1,7 +1,9 @@
 
 import { zProfile } from "../schemas/profile";
+import { getConfig } from "../utils/get-config";
 import { error } from "itty-router";
 // ? TYPES:
+import type { ProfileSchema } from "../schemas/profile";
 import type { IRequest } from "../types";
 
 const authMiddleware = (request: Omit<IRequest, "query">, env: Env) => {
@@ -11,7 +13,7 @@ const authMiddleware = (request: Omit<IRequest, "query">, env: Env) => {
 
   const profileHeader = request.headers.get("profile") || request.params.profile;
 
-  const profiles = env.RESEND_CONFIG.split("|").map((profileStr) => Object.fromEntries(new URLSearchParams(profileStr).entries()));
+  const profiles = getConfig<ProfileSchema>(env.RESEND_CONFIG);
 
   const found = profiles.find((profile) => profile.profile === profileHeader);
 

@@ -1,12 +1,12 @@
 import { error } from "itty-router";
-import { parseRequest } from "../utils/parse-request";
+import { parseContent } from "../utils/parse-content";
 import encryptionController from "../controllers/encryption";
 import { zEmailPayload, zEmailQuery } from "../schemas/email";
 // ? TYPES:
 import type { EmailRequest } from "../types";
 
 const emailValidationMiddleware = async (request: EmailRequest, env: Env) => {
-  const content = await parseRequest(request);
+  const content = await parseContent(request);
   const parsed = zEmailPayload.safeParse(content);
   if (!parsed.success) {
     return error(400, { validation: parsed.error.issues });
@@ -17,11 +17,15 @@ const emailValidationMiddleware = async (request: EmailRequest, env: Env) => {
     }
     return value.includes("@") || !salt ? Promise.resolve(value) : encryptionController.decrypt(value, salt);
   }
-  const recipient = await decryptEmailIfNeeded(parsed.data.recipient, env.SALT);
-  request.parsed = {
-    ...parsed.data,
-    recipient
-  };
+  try {
+    const recipient = await decryptEmailIfNeeded(parsed.data.recipient, env.SALT);
+    request.parsed = {
+      ...parsed.data,
+      recipient
+    };
+  } catch (_err) {
+    return error(400, { description: "Decryption failed." });
+  }
   const parsedQuery = zEmailQuery.safeParse(request.query);
   if (parsedQuery.success) {
     request.query = parsedQuery.data;
